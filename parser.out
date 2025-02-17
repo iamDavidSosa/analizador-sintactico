@@ -1,0 +1,392 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> statement
+Rule 1     statement -> SELECT column_list FROM ID
+Rule 2     statement -> SELECT column_list FROM ID WHERE ID EQUALS NUMBER
+Rule 3     column_list -> ASTERISK
+Rule 4     column_list -> ID
+Rule 5     column_list -> ID COMMA column_list
+Rule 6     statement -> INSERT INTO ID LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+Rule 7     value_list -> NUMBER
+Rule 8     value_list -> NUMBER COMMA value_list
+Rule 9     statement -> UPDATE ID SET ID EQUALS NUMBER WHERE ID EQUALS NUMBER
+Rule 10    statement -> DELETE FROM ID WHERE ID EQUALS NUMBER
+
+Terminals, with rules where they appear
+
+ASTERISK             : 3
+COMMA                : 5 8
+DELETE               : 10
+EQUALS               : 2 9 9 10
+FROM                 : 1 2 10
+ID                   : 1 2 2 4 5 6 9 9 9 10 10
+INSERT               : 6
+INTO                 : 6
+LPAREN               : 6 6
+NUMBER               : 2 7 8 9 9 10
+RPAREN               : 6 6
+SELECT               : 1 2
+SET                  : 9
+UPDATE               : 9
+VALUES               : 6
+WHERE                : 2 9 10
+error                : 
+
+Nonterminals, with rules where they appear
+
+column_list          : 1 2 5 6
+statement            : 0
+value_list           : 6 8
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . statement
+    (1) statement -> . SELECT column_list FROM ID
+    (2) statement -> . SELECT column_list FROM ID WHERE ID EQUALS NUMBER
+    (6) statement -> . INSERT INTO ID LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+    (9) statement -> . UPDATE ID SET ID EQUALS NUMBER WHERE ID EQUALS NUMBER
+    (10) statement -> . DELETE FROM ID WHERE ID EQUALS NUMBER
+
+    SELECT          shift and go to state 2
+    INSERT          shift and go to state 3
+    UPDATE          shift and go to state 4
+    DELETE          shift and go to state 5
+
+    statement                      shift and go to state 1
+
+state 1
+
+    (0) S' -> statement .
+
+
+
+state 2
+
+    (1) statement -> SELECT . column_list FROM ID
+    (2) statement -> SELECT . column_list FROM ID WHERE ID EQUALS NUMBER
+    (3) column_list -> . ASTERISK
+    (4) column_list -> . ID
+    (5) column_list -> . ID COMMA column_list
+
+    ASTERISK        shift and go to state 8
+    ID              shift and go to state 7
+
+    column_list                    shift and go to state 6
+
+state 3
+
+    (6) statement -> INSERT . INTO ID LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+
+    INTO            shift and go to state 9
+
+
+state 4
+
+    (9) statement -> UPDATE . ID SET ID EQUALS NUMBER WHERE ID EQUALS NUMBER
+
+    ID              shift and go to state 10
+
+
+state 5
+
+    (10) statement -> DELETE . FROM ID WHERE ID EQUALS NUMBER
+
+    FROM            shift and go to state 11
+
+
+state 6
+
+    (1) statement -> SELECT column_list . FROM ID
+    (2) statement -> SELECT column_list . FROM ID WHERE ID EQUALS NUMBER
+
+    FROM            shift and go to state 12
+
+
+state 7
+
+    (4) column_list -> ID .
+    (5) column_list -> ID . COMMA column_list
+
+    FROM            reduce using rule 4 (column_list -> ID .)
+    RPAREN          reduce using rule 4 (column_list -> ID .)
+    COMMA           shift and go to state 13
+
+
+state 8
+
+    (3) column_list -> ASTERISK .
+
+    FROM            reduce using rule 3 (column_list -> ASTERISK .)
+    RPAREN          reduce using rule 3 (column_list -> ASTERISK .)
+
+
+state 9
+
+    (6) statement -> INSERT INTO . ID LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+
+    ID              shift and go to state 14
+
+
+state 10
+
+    (9) statement -> UPDATE ID . SET ID EQUALS NUMBER WHERE ID EQUALS NUMBER
+
+    SET             shift and go to state 15
+
+
+state 11
+
+    (10) statement -> DELETE FROM . ID WHERE ID EQUALS NUMBER
+
+    ID              shift and go to state 16
+
+
+state 12
+
+    (1) statement -> SELECT column_list FROM . ID
+    (2) statement -> SELECT column_list FROM . ID WHERE ID EQUALS NUMBER
+
+    ID              shift and go to state 17
+
+
+state 13
+
+    (5) column_list -> ID COMMA . column_list
+    (3) column_list -> . ASTERISK
+    (4) column_list -> . ID
+    (5) column_list -> . ID COMMA column_list
+
+    ASTERISK        shift and go to state 8
+    ID              shift and go to state 7
+
+    column_list                    shift and go to state 18
+
+state 14
+
+    (6) statement -> INSERT INTO ID . LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN
+
+    LPAREN          shift and go to state 19
+
+
+state 15
+
+    (9) statement -> UPDATE ID SET . ID EQUALS NUMBER WHERE ID EQUALS NUMBER
+
+    ID              shift and go to state 20
+
+
+state 16
+
+    (10) statement -> DELETE FROM ID . WHERE ID EQUALS NUMBER
+
+    WHERE           shift and go to state 21
+
+
+state 17
+
+    (1) statement -> SELECT column_list FROM ID .
+    (2) statement -> SELECT column_list FROM ID . WHERE ID EQUALS NUMBER
+
+    $end            reduce using rule 1 (statement -> SELECT column_list FROM ID .)
+    WHERE           shift and go to state 22
+
+
+state 18
+
+    (5) column_list -> ID COMMA column_list .
+
+    FROM            reduce using rule 5 (column_list -> ID COMMA column_list .)
+    RPAREN          reduce using rule 5 (column_list -> ID COMMA column_list .)
+
+
+state 19
+
+    (6) statement -> INSERT INTO ID LPAREN . column_list RPAREN VALUES LPAREN value_list RPAREN
+    (3) column_list -> . ASTERISK
+    (4) column_list -> . ID
+    (5) column_list -> . ID COMMA column_list
+
+    ASTERISK        shift and go to state 8
+    ID              shift and go to state 7
+
+    column_list                    shift and go to state 23
+
+state 20
+
+    (9) statement -> UPDATE ID SET ID . EQUALS NUMBER WHERE ID EQUALS NUMBER
+
+    EQUALS          shift and go to state 24
+
+
+state 21
+
+    (10) statement -> DELETE FROM ID WHERE . ID EQUALS NUMBER
+
+    ID              shift and go to state 25
+
+
+state 22
+
+    (2) statement -> SELECT column_list FROM ID WHERE . ID EQUALS NUMBER
+
+    ID              shift and go to state 26
+
+
+state 23
+
+    (6) statement -> INSERT INTO ID LPAREN column_list . RPAREN VALUES LPAREN value_list RPAREN
+
+    RPAREN          shift and go to state 27
+
+
+state 24
+
+    (9) statement -> UPDATE ID SET ID EQUALS . NUMBER WHERE ID EQUALS NUMBER
+
+    NUMBER          shift and go to state 28
+
+
+state 25
+
+    (10) statement -> DELETE FROM ID WHERE ID . EQUALS NUMBER
+
+    EQUALS          shift and go to state 29
+
+
+state 26
+
+    (2) statement -> SELECT column_list FROM ID WHERE ID . EQUALS NUMBER
+
+    EQUALS          shift and go to state 30
+
+
+state 27
+
+    (6) statement -> INSERT INTO ID LPAREN column_list RPAREN . VALUES LPAREN value_list RPAREN
+
+    VALUES          shift and go to state 31
+
+
+state 28
+
+    (9) statement -> UPDATE ID SET ID EQUALS NUMBER . WHERE ID EQUALS NUMBER
+
+    WHERE           shift and go to state 32
+
+
+state 29
+
+    (10) statement -> DELETE FROM ID WHERE ID EQUALS . NUMBER
+
+    NUMBER          shift and go to state 33
+
+
+state 30
+
+    (2) statement -> SELECT column_list FROM ID WHERE ID EQUALS . NUMBER
+
+    NUMBER          shift and go to state 34
+
+
+state 31
+
+    (6) statement -> INSERT INTO ID LPAREN column_list RPAREN VALUES . LPAREN value_list RPAREN
+
+    LPAREN          shift and go to state 35
+
+
+state 32
+
+    (9) statement -> UPDATE ID SET ID EQUALS NUMBER WHERE . ID EQUALS NUMBER
+
+    ID              shift and go to state 36
+
+
+state 33
+
+    (10) statement -> DELETE FROM ID WHERE ID EQUALS NUMBER .
+
+    $end            reduce using rule 10 (statement -> DELETE FROM ID WHERE ID EQUALS NUMBER .)
+
+
+state 34
+
+    (2) statement -> SELECT column_list FROM ID WHERE ID EQUALS NUMBER .
+
+    $end            reduce using rule 2 (statement -> SELECT column_list FROM ID WHERE ID EQUALS NUMBER .)
+
+
+state 35
+
+    (6) statement -> INSERT INTO ID LPAREN column_list RPAREN VALUES LPAREN . value_list RPAREN
+    (7) value_list -> . NUMBER
+    (8) value_list -> . NUMBER COMMA value_list
+
+    NUMBER          shift and go to state 38
+
+    value_list                     shift and go to state 37
+
+state 36
+
+    (9) statement -> UPDATE ID SET ID EQUALS NUMBER WHERE ID . EQUALS NUMBER
+
+    EQUALS          shift and go to state 39
+
+
+state 37
+
+    (6) statement -> INSERT INTO ID LPAREN column_list RPAREN VALUES LPAREN value_list . RPAREN
+
+    RPAREN          shift and go to state 40
+
+
+state 38
+
+    (7) value_list -> NUMBER .
+    (8) value_list -> NUMBER . COMMA value_list
+
+    RPAREN          reduce using rule 7 (value_list -> NUMBER .)
+    COMMA           shift and go to state 41
+
+
+state 39
+
+    (9) statement -> UPDATE ID SET ID EQUALS NUMBER WHERE ID EQUALS . NUMBER
+
+    NUMBER          shift and go to state 42
+
+
+state 40
+
+    (6) statement -> INSERT INTO ID LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN .
+
+    $end            reduce using rule 6 (statement -> INSERT INTO ID LPAREN column_list RPAREN VALUES LPAREN value_list RPAREN .)
+
+
+state 41
+
+    (8) value_list -> NUMBER COMMA . value_list
+    (7) value_list -> . NUMBER
+    (8) value_list -> . NUMBER COMMA value_list
+
+    NUMBER          shift and go to state 38
+
+    value_list                     shift and go to state 43
+
+state 42
+
+    (9) statement -> UPDATE ID SET ID EQUALS NUMBER WHERE ID EQUALS NUMBER .
+
+    $end            reduce using rule 9 (statement -> UPDATE ID SET ID EQUALS NUMBER WHERE ID EQUALS NUMBER .)
+
+
+state 43
+
+    (8) value_list -> NUMBER COMMA value_list .
+
+    RPAREN          reduce using rule 8 (value_list -> NUMBER COMMA value_list .)
+
